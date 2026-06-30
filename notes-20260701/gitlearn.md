@@ -1,0 +1,37 @@
+- 标准的完整流程：
+    - 首先 **fork** 官方仓库到自己的 github 账号下，形成自己的远程仓库`origin`
+        - 暂定：仓库名称为 `coffeeshop`。fork 之后选择修改名称，为：`coffee`
+        - fork 他人仓库的原因：把修改先推到自己的 fork，再通过 PR 请求官方仓库合并。这样官方维护者可以审核代码、讨论修改、决定是否合并到 main。fork 是为了拥有一个你可以自由推送的远程副本。
+    - 再通过`git clone https://github.com/plwhd/coffee.git` 命令，将自己fork 后的仓库 clone 到本地，形成本地仓库。执行后，本地会生成一个`coffee`文件夹，这个文件夹就是本地仓库
+        - 执行完此git 命令之后，git 会自动把 `origin`设置为 `origin  https://github.com/plwhd/coffee.git`
+        - 插入：clone 完之后，一般不需要再执行 `git remote add origin ...`，git 已经帮你自动添加好了 `origin`。只有在“本地已有文件夹，先`git init`，再连接 GitHub 仓库”的场景下才需要手动 `git remote add origin ...`
+    - 然后通过`git remote add upstream 官方仓库地址` 命令， 添加官方仓库为`upstream`，
+        - git remote add upstream https://github.com/原作者/coffeeshop.git  
+        - *git remote add origin https://github.com/*plwhd/coffee*.git*
+        - 之后，可以通过 `git remote -v` 确认当前项目连接了哪些远程仓库，以及它们的具体地址是否正确。origin 指向自己的 GitHub 用户名 → 这是 fork 后的仓库；upstream指向原仓库所有者 → 表明是从原仓库 fork 过来的；fetch：拉代码时；push ：推代码时。
+    - 开始任务前，可以首先 `git status` ,查看当前 git 仓库的状态是否干净
+    - 然后`git fetch upstream`获取官方最新内容
+        - 去原仓库把最新的代码下载到你的电脑缓存里，此时你的代码还没有变
+        - 比较规范的习惯是：开始任务前确保工作区干净，修改后再查看变更
+    - 如果想要在新的分支上协作，基于官方目标分支`ui` 创建自己的本地任务分支`ui-iconfont-update`，例如`git switch -c ui-iconfont-update upstream/ui`
+        - git 命令解释：以官方仓库的`ui`分支为起点，新建一个你自己的本地任务分支`ui-iconfont-update`，并立即切换到这个新分支上
+        - `git switch` 切换分支；`-c` “create”创建一个新的分支；`git switch -c` 创建新分支并切换过去；`upstream/ui` 新分支的起点。
+        - 执行前通常先做`git fetch upstream` 确保获取官方仓库最新内容
+        - 执行后，可以通过 `git branch`查看当前分支 ；`git switch lipengfei`  切换到名称叫做 `lipengfei` 的分支
+    - 修改文件
+        - 修改文件后，可以再次通过`git status` 查看哪些文件被修改、哪些是新文件
+    - 执行`git add`暂存、`git commit -m "说明本次修改"` 生成本地提交、`git push origin ui-iconfont-update` 推送到自己的远程 fork 分支
+        - `git add`的意思是告诉 Git，“这些改动我要纳入下一次版本记录”。它把文件从“工作区”放到“暂存区”。
+        - `git commit`的意思是把暂存区里的内容正式保存成一次版本快照。这个快照会有一个 commit 编号，比如`86cd52a`，以后可以查看、比较、回退。
+        - *第一次推送这个分支到 github 推荐使用：**`git push -u origin ui`**。 **`-u`**的意思是把本地*`ui-iconfont-update`*分支和远程**`origin/`*`ui-iconfont-update`* 关联起来。*
+    - 最后在 GitHub 上从`plwhd:ui-iconfont-update`向`官方仓库:ui` 创建 Pull Request，等待管理人员审核合并
+    - `git log ` 查看历史版本
+        - `git log --oneline`查看历史版本（简洁版）
+        - `git log --oneline -3` 查看最近三条版本记录
+        - `git log --oneline --stat -3` 查看每次commit 改了哪些文件
+        - `git log --oneline README.md ` 只看`README.md` 这个文件的修改历史
+        - `git show aa6732f`查看某一次具体commit的详细内容
+        - `aa6732f` 为提交哈希值；git 每次commit都会生成一个哈希
+        - `git switch --detach 4a94bac`  临时切到`4a94bac`这个历史版本查看文件。此时不在`main` 分支上，只是在看过去的快照，查看完想要回到最新版本 ，使用 `git switch main`
+        -  `git log`使用场景：想知道项目过去做过什么修改、某个版本是谁提交的、某次 commit 改了哪些文件、现在本地版本是否已经推送到 GitHub、或者后续想查看某个历史版本。
+        -  
