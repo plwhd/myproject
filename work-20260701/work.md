@@ -2,4 +2,5 @@
   - 对网页进行重新设计并产出代码、推动到github 上进行协作。
   - https://github.com/plwhd/vibe-coding-landing-page/issues/2
   - 后续：整理prompt
+  - pencil
 - 
